@@ -1,0 +1,13 @@
+Code used to generate d3 Gapminder graphic:
+* To select and clear a certain html object:
+d3.select(".main").html("");
+* Add a svg and assign it to a variable called "svg"
+var svg = d3.select(".main").append("svg");
+svg.attr("height", 300).attr("width", 600);
+* Create a linear scale mapping on the y axis.
+* Note - we reverse the pixel order for the y-axis.
+var y = d3.scale.linear().domain([25, 90]).range([250, 0]);
+* Create a log scale mapping on the x-axis:
+var x = d3.scale.log().domain([250, 100000]).range([0, 600]);
+* Create a function to map the radius:
+var r = d3.scale.sqrt().domain([52070, 1380000000]).range([10, 50]);
