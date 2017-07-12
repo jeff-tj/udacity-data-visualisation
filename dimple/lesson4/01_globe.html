@@ -9,8 +9,8 @@
       function draw(geo_data) {
         "use strict";
         var margin = 75,
-            width = 1920 - margin,
-            height = 1080 - margin;
+            width = 1280 - margin,
+            height = 800 - margin;
 
         var svg = d3.select("body")
             .append("svg")
@@ -20,7 +20,11 @@
             .attr('class', 'map');
 
         // Like scales - coverts coords into a pixel
-        var projection = d3.geo.mercator();
+        var projection = d3.geo.mercator()
+        // Add scale and translate to better position the map
+        // Scale like zoom, translate like moving the map around
+                               .scale(170)
+                               .translate([width / 2, height / 2]);
 
         // Construct an svg element to render the objects
         var path = d3.geo.path().projection(projection);
@@ -29,10 +33,15 @@
                      .data(geo_data.features) // Extract the .features array
                      .enter()
                      .append("path")
-                     .attr("d", path);
+                     .attr("d", path)
+                     // Add style to change the appearance of the map
+                     .style("fill", "rgb(9,157,217")
+                     .style("stroke", "black")
+                     .style("stroke-width", 0.5);
         // Note - the path variable processes the data that is bound to each element
-        
+
       };
+      
       </script>
   </head>
 <body>
