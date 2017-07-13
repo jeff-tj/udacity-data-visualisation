@@ -71,10 +71,24 @@
                            })
                            .entries(data);
             
+            var attendance_extent = d3.extent(nested, function(d) {
+                return d.values["attendance"];
+            });
+
+            var attendance_max = d3.max(nested, function(d) {
+                return d.values['attendance'];
+            });
+
+            var radius = d3.scale.sqrt()
+                           .domain([0, attendance_max])
+                           .range([0, 12]);
+
             svg.append("g")
                .attr("class", "bubble")
                .selectAll("circle")
-               .data(nested)
+               .data(nested.sort(function(a, b) {
+                  return a.values["attendance"] - b.values["attendance"];
+               }))
                .enter()
                .append("circle")
                .attr("cx", function(d) {
@@ -83,7 +97,13 @@
                .attr("cy", function(d) {
                   return d.values["y"];
                })
-               .attr("r", 5);
+               .attr("r", function(d) {
+                  return radius(d.values["attendance"])
+               })
+               .attr("fill", "rgb(247,148,32")
+               .attr("opacity", 0.7) // Allows us to see overlapping circles
+               .attr("stroke", "black")
+               .attr("stroke-width", 0.7);
         };
 
         var format = d3.time.format("%d-%m-%Y (%H:%M h)");
