@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <script src="http://d3js.org/d3.v3.min.js"></script>
     <style>
+      circle {
+        fill: rgb(247,148,32);
+        stroke: black;
+        stroke-width: 0.7;
+        opacity: 0.7; /* allows us to see overlapping circles */
+      }
     </style>
     <script type="text/javascript">  
       function draw(geo_data) {
@@ -63,10 +69,18 @@
                                   return d[1];
                                 });
 
+                                var teams = d3.set();
+
+                                leaves.forEach(function(d) {
+                                    teams.add(d["team1"]);
+                                    teams.add(d["team2"]);
+                                });
+
                                 return {
                                   "attendance": total,
                                   "x": center_x,
-                                  "y": center_y 
+                                  "y": center_y, 
+                                  "teams": teams.values() // Set returned as an array of values
                                 };
                            })
                            .entries(data);
@@ -83,12 +97,18 @@
                            .domain([0, attendance_max])
                            .range([0, 12]);
 
+            function key_func(d) {
+              return d["key"];
+            };
+
             svg.append("g")
                .attr("class", "bubble")
                .selectAll("circle")
                .data(nested.sort(function(a, b) {
                   return a.values["attendance"] - b.values["attendance"];
-               }))
+               }), function(d) {
+                  return d["key"];
+               })
                .enter()
                .append("circle")
                .attr("cx", function(d) {
@@ -99,11 +119,39 @@
                })
                .attr("r", function(d) {
                   return radius(d.values["attendance"])
-               })
-               .attr("fill", "rgb(247,148,32")
-               .attr("opacity", 0.7) // Allows us to see overlapping circles
-               .attr("stroke", "black")
-               .attr("stroke-width", 0.7);
+               });
+
+            function update(year) {
+              // Filter data and remove elements
+              var filtered = nested.filter(function(d) {
+                return new Date(d["key"]).getUTCFullYear() === year;
+              });
+              
+              var circles = svg.selectAll("circle")
+                               .data(filtered, key_func);
+
+              circles.exit().remove();
+
+              circles.enter()
+                  .append("circle")
+                  .attr("cx", function(d) { return d.values["x"]; })
+                  .attr("cy", function(d) { return d.values["y"]; })
+                  .attr("r", function(d) { return radius(d.values["attendance"]); });
+
+              var countries = filtered[0].values["teams"];
+
+              svg.selectAll("path")
+                 .style("fill", function(d) {
+                      if(countries.indexOf(d.properties.name) !== -1) {
+                        return "rgb(9,157,217";
+                      } else {
+                        return "white";
+                      }
+                 });
+              // Note I prefer seeing the outlines of the countries not playing
+              // Can also apply to outlines per course guidelines
+            };
+            debugger;
         };
 
         var format = d3.time.format("%d-%m-%Y (%H:%M h)");
