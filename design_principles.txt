@@ -1,0 +1,7 @@
+...
+
+# Animation
+js setTimeout() to run after a specific length of time
+js setInterval() to run at specified intervals:
+	*first argument is the function to run
+	*second argument is interval in ms

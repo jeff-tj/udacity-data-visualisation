@@ -10,6 +10,10 @@
         stroke-width: 0.7;
         opacity: 0.7; /* allows us to see overlapping circles */
       }
+      h2 {
+        text-align: center;
+        color: black;
+      }
     </style>
     <script type="text/javascript">  
       function draw(geo_data) {
@@ -17,6 +21,10 @@
         var margin = 75,
             width = 1280 - margin,
             height = 800 - margin;
+
+        d3.select("body")
+          .append("h2")
+          .text("World Cup Animated by Year");
 
         var svg = d3.select("body")
             .append("svg")
@@ -84,10 +92,11 @@
                                 };
                            })
                            .entries(data);
-            
+            /*
             var attendance_extent = d3.extent(nested, function(d) {
                 return d.values["attendance"];
             });
+            */
 
             var attendance_max = d3.max(nested, function(d) {
                 return d.values['attendance'];
@@ -126,6 +135,9 @@
               var filtered = nested.filter(function(d) {
                 return new Date(d["key"]).getUTCFullYear() === year;
               });
+
+              d3.select("h2")
+                .text("World Cup " + year);
               
               var circles = svg.selectAll("circle")
                                .data(filtered, key_func);
@@ -150,9 +162,35 @@
                  });
               // Note I prefer seeing the outlines of the countries not playing
               // Can also apply to outlines per course guidelines
-            };
-            debugger;
-        };
+            }
+            
+            function populate_years(start, end, step) {
+
+                var years = []; //empty years array
+
+                for(var year = start; year <= end; year += step) {
+                    if(year !== 1942 && year !== 1946) {
+                        years.push(year);
+                    }
+                }
+                return years;  //return years array
+            }
+
+            var years = [];
+            years = populate_years(1930, 2015, 4);
+
+            var year_idx = 0;
+
+            var year_interval = setInterval(function() {
+                update(years[year_idx]);
+
+                year_idx++;
+
+                if(year_idx >= years.length) {
+                  clearInterval(year_interval);
+                }
+            }, 1000);
+        }
 
         var format = d3.time.format("%d-%m-%Y (%H:%M h)");
 
