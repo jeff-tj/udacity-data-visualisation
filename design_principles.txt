@@ -5,3 +5,9 @@ js setTimeout() to run after a specific length of time
 js setInterval() to run at specified intervals:
 	*first argument is the function to run
 	*second argument is interval in ms
+
+d3 has built in transition:
+	.transition()
+	.duration(how_long)
+This is one advantage of using d3 to sytle
+If use css/html the transitions don't apply

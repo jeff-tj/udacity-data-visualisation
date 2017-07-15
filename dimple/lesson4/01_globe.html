@@ -146,6 +146,8 @@
 
               circles.enter()
                   .append("circle")
+                  .transition() // d3's built in transition tools
+                  .duration(500) // specify with duration how long to take
                   .attr("cx", function(d) { return d.values["x"]; })
                   .attr("cy", function(d) { return d.values["y"]; })
                   .attr("r", function(d) { return radius(d.values["attendance"]); });
@@ -153,9 +155,11 @@
               var countries = filtered[0].values["teams"];
 
               svg.selectAll("path")
+                 .transition()
+                 .duration(500)
                  .style("fill", function(d) {
                       if(countries.indexOf(d.properties.name) !== -1) {
-                        return "rgb(9,157,217";
+                        return "rgb(9,157,217)";
                       } else {
                         return "white";
                       }
