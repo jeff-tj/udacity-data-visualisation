@@ -11,3 +11,5 @@ var y = d3.scale.linear().domain([25, 90]).range([250, 0]);
 var x = d3.scale.log().domain([250, 100000]).range([0, 600]);
 * Create a function to map the radius:
 var r = d3.scale.sqrt().domain([52070, 1380000000]).range([10, 50]);
+* Create a circle:
+svg.append("circle").attr("fill", "red").attr("r", r(1380000000)).attr("cx", x(13330)).attr("cy", y(77));
