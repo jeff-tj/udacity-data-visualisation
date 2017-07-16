@@ -14,12 +14,23 @@
         text-align: center;
         color: black;
       }
+
+      div.years_buttons {
+          position: fixed;
+          top: 5px;
+          left: 50px;
+      }
+      div.years_buttons div {
+          background-color: rgb(251, 201, 127);
+          padding: 3px;
+          margin: 7px;
+      }
     </style>
     <script type="text/javascript">  
       function draw(geo_data) {
         "use strict";
         var margin = 75,
-            width = 1280 - margin,
+            width = 1400 - margin,
             height = 800 - margin;
 
         d3.select("body")
@@ -33,6 +44,30 @@
             .append('g')
             .attr('class', 'map');
 
+        function populate_years(start, end, step) {
+
+                var years = []; //empty years array
+
+                for(var year = start; year <= end; year += step) {
+                    if(year !== 1942 && year !== 1946) {
+                        years.push(year);
+                    }
+                }
+                return years;  //return years array
+            }
+
+        var years = populate_years(1930, 2015, 4);
+
+        var buttons = d3.select("body")
+                      .append("div")
+                      .attr("class", "years_buttons")
+                      .selectAll("div")
+                      .data(years)
+                      .enter()
+                      .append("div")
+                      .text(function(d) {
+                        return d;
+                      });
         // Like scales - coverts coords into a pixel
         var projection = d3.geo.mercator()
         // Add scale and translate to better position the map
@@ -167,21 +202,6 @@
               // Note I prefer seeing the outlines of the countries not playing
               // Can also apply to outlines per course guidelines
             }
-            
-            function populate_years(start, end, step) {
-
-                var years = []; //empty years array
-
-                for(var year = start; year <= end; year += step) {
-                    if(year !== 1942 && year !== 1946) {
-                        years.push(year);
-                    }
-                }
-                return years;  //return years array
-            }
-
-            var years = [];
-            years = populate_years(1930, 2015, 4);
 
             var year_idx = 0;
 
