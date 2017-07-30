@@ -24,12 +24,12 @@
           debugger;
           "use strict";
           var margin = 75,
-              width = 1400 - margin,
+              width = 1200 - margin,
               height = 600 - margin;
 
           var header = d3.select("body")
             .append("h2")
-              .text("World Cup Attendance");
+              .text("Australian Economy");
 
           var svg = d3.select("body")
             .append("svg")
@@ -43,13 +43,28 @@
       */
 
           var myChart = new dimple.chart(svg, data);
-          var x = myChart.addTimeAxis("x", "year"); 
-          x.dateParseFormat = "%Y";
-          x.tickFormat = "%Y";
-          x.timeInterval = 4;
-          myChart.addMeasureAxis("y", "attendance");
-          myChart.addSeries(null, dimple.plot.line);
-          myChart.addSeries(null, dimple.plot.scatter);
+          var x = myChart.addTimeAxis("x", "Date"); 
+          x.dateParseFormat = "%d %b %Y";
+          x.tickFormat = "%b-%y";
+          x.timeInterval = 1;
+
+          var y_cash = myChart.addMeasureAxis("y", "cash_rate");
+          y_cash.tickFormat = ",.2f";
+          var cash = myChart.addSeries(null, dimple.plot.line, [x, y_cash]);
+
+          var y_gdp = myChart.addMeasureAxis("y", "gdp");
+          y_gdp.tickFormat = ",.2f";
+          var gdp = myChart.addSeries(null, dimple.plot.bar, [x, y_gdp]);
+
+          /* Take advantage of the dimple composite axes */
+          var y_cpi = myChart.addMeasureAxis(y_gdp, "cpi");
+          y_cpi.tickFormat = ",.2f";
+          var cpi = myChart.addSeries(null, dimple.plot.line, [x, y_cpi]);
+
+          var y_ue = myChart.addMeasureAxis(y_cash, "ue_aus");
+          y_ue.tickFormat = ",.2f";
+          var cpi = myChart.addSeries(null, dimple.plot.line, [x, y_ue]);
+
           myChart.draw();
         };
       </script>
