@@ -6,29 +6,32 @@
   <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
   <style>
     circle.dimple-series-0 {
-      fill: #FF4136;
-      stroke: #FF4136;
+      fill: #d7191c;
+      stroke: #d7191c;
     }
     path.dimple-series-0 {
-      stroke: #FF4136;
+      stroke: #d7191c;
     }
     rect.dimple-series-1 {
-      fill: #AAAAAA;
-      stroke: #AAAAAA;
+      fill: #bababa;
+      stroke: #bababa;
+      opacity: 0.25;
     }
     circle.dimple-series-2 {
-      fill: #39CCCC;
-      stroke: #39CCCC;
+      fill: #abd9e9;
+      stroke: #abd9e9;
     }
     path.dimple-series-2 {
-      stroke: #39CCCC;
+      stroke: #abd9e9;
+      opacity: 0.5;
     }
     circle.dimple-series-3 {
-      fill: #01FF70;
-      stroke: #01FF70;
+      fill: #abdda4;
+      stroke: #abdda4;
     }
     path.dimple-series-3 {
-      stroke: #01FF70;
+      stroke: #abdda4;
+      opacity: 0.5;
     }
     h2 {
       text-align: center;
@@ -41,7 +44,7 @@
       /*
         D3.js setup code
       */
-          debugger;
+
           "use strict";
           var margin = 75,
               width = 1200 - margin,
@@ -86,6 +89,12 @@
           var cpi = myChart.addSeries(null, dimple.plot.line, [x, y_ue]);
 
           myChart.draw();
+
+          /* Improve readability by reducing bar sizes */
+          svg.selectAll("rect").style("width", 1);
+
+          /* */
+          debugger;
         };
       </script>
   </head>

@@ -29,3 +29,14 @@ the previous release
 * ue - Unemployment Rate is the main measure used to gauge the quality of the 
 labour market in Australia, here I have provided both a national number as well
 as a state by state number
+
+## Selecting Colors
+We use color brewer to select an scheme of colors, relying mainly on pastel
+colors to improve readability.
+http://colorbrewer2.org/
+*Grey Bars: #bababa
+*Cash Rate: #d7191c
+*Inflation: #abd9e9
+*u/e: #abdda4
+Note we since we want to focus on the cash rate, we make this a solid color.
+For the rest we use softer pastel shades, as well as reduce the opacity.
