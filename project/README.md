@@ -40,3 +40,10 @@ http://colorbrewer2.org/
 *u/e: #abdda4
 Note we since we want to focus on the cash rate, we make this a solid color.
 For the rest we use softer pastel shades, as well as reduce the opacity.
+
+## Interactivity
+Wanted to add a feature to let users interactively toggle data on and off - 
+similar to the world cup example.
+However researching came across an interactive legend feature:
+http://dimplejs.org/advanced_examples_viewer.html?id=advanced_interactive_legends
+http://jsbin.com/sacaze/4/edit?html,js,output

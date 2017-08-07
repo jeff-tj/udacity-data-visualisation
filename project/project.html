@@ -36,17 +36,6 @@
     h2 {
       text-align: center;
     }
-    div.data_buttons {
-      position: fixed;
-      top: 5px;
-      left: 5px;
-    }
-
-    div.data_buttons div {
-      background-color: rgb(251, 201, 127);
-      padding: 3px;
-      margin: 7px;
-    }
   </style>
     <script type="text/javascript">
       function draw(data) {
@@ -96,38 +85,18 @@
 
           var y_ue = myChart.addMeasureAxis(y_cash, "ue_aus");
           y_ue.tickFormat = ",.2f";
-          var cpi = myChart.addSeries(null, dimple.plot.line, [x, y_ue]);
+          var ue = myChart.addSeries(null, dimple.plot.line, [x, y_ue]);
+
+          var myLegend = myChart.addLegend(5, 5, 100, 150, "Left");
 
           myChart.draw();
 
           /* Improve readability by reducing bar sizes */
-          svg.selectAll("rect").style("width", 1);
+          /* svg.selectAll("rect").style("width", 1); */
 
           myChart.axes[0].shapes.selectAll("text")
                           .attr("transform", "rotate (0)");
 
-          /* Add buttons to toggle data series */
-          var button_labels = [
-                                {"name": "cash"}, 
-                                {"name": "gdp"}, 
-                                {"name": "cpi"}, 
-                                {"name": "ue"}
-                              ];
-
-          var buttons = d3.select("body")
-                            .append("div")
-                            .attr("class", "data_buttons")
-                            .selectAll("div")
-                            .data(button_labels)
-                            .enter()
-                            .append("div")
-                            .text(function(d) {
-                                return d["name"];
-                            });
-
-          buttons.on("click", function(d) {
-
-          });
           /* */
           debugger;
         };
