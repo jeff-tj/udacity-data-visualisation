@@ -5,34 +5,6 @@
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
   <style>
-    circle.dimple-series-0 {
-      fill: #d7191c;
-      stroke: #d7191c;
-    }
-    path.dimple-series-0 {
-      stroke: #d7191c;
-    }
-    rect.dimple-series-1 {
-      fill: #bababa;
-      stroke: #bababa;
-      opacity: 0.25;
-    }
-    circle.dimple-series-2 {
-      fill: #abd9e9;
-      stroke: #abd9e9;
-    }
-    path.dimple-series-2 {
-      stroke: #abd9e9;
-      opacity: 0.5;
-    }
-    circle.dimple-series-3 {
-      fill: #abdda4;
-      stroke: #abdda4;
-    }
-    path.dimple-series-3 {
-      stroke: #abdda4;
-      opacity: 0.5;
-    }
     h2 {
       text-align: center;
     }
@@ -68,26 +40,34 @@
           var x = myChart.addTimeAxis("x", "Date"); 
           x.dateParseFormat = "%d %b %Y";
           x.tickFormat = "%b-%y";
-          x.timeInterval = 1;
+          x.timeInterval = 2;
+
+          /* Set new default colors */
+          myChart.defaultColors = [
+                  new dimple.color("#d7191c", "#d7191c", 0.8),
+                  new dimple.color("#bababa", "#bababa", 0.25),
+                  new dimple.color("#abd9e9", "#abd9e9", 0.8),
+                  new dimple.color("#abdda4", "#abdda4", 0.8)
+          ];
 
           var y_cash = myChart.addMeasureAxis("y", "cash_rate");
           y_cash.tickFormat = ",.2f";
-          var cash = myChart.addSeries(null, dimple.plot.line, [x, y_cash]);
+          var cash = myChart.addSeries("Cash Rate", dimple.plot.line, [x, y_cash]);
 
           var y_gdp = myChart.addMeasureAxis("y", "gdp");
           y_gdp.tickFormat = ",.2f";
-          var gdp = myChart.addSeries(null, dimple.plot.bar, [x, y_gdp]);
+          var gdp = myChart.addSeries("GDP", dimple.plot.bar, [x, y_gdp]);
 
           /* Take advantage of the dimple composite axes */
           var y_cpi = myChart.addMeasureAxis(y_gdp, "cpi");
           y_cpi.tickFormat = ",.2f";
-          var cpi = myChart.addSeries(null, dimple.plot.line, [x, y_cpi]);
+          var cpi = myChart.addSeries("CPI", dimple.plot.line, [x, y_cpi]);
 
           var y_ue = myChart.addMeasureAxis(y_cash, "ue_aus");
           y_ue.tickFormat = ",.2f";
-          var ue = myChart.addSeries(null, dimple.plot.line, [x, y_ue]);
+          var ue = myChart.addSeries("Unemployment", dimple.plot.line, [x, y_ue]);
 
-          var myLegend = myChart.addLegend(5, 5, 100, 150, "Left");
+          var myLegend = myChart.addLegend(width - 200, 70, 150, 600, "Right", [ue, gdp, cpi, cash]);
 
           myChart.draw();
 
