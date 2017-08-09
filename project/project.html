@@ -8,6 +8,9 @@
     h2 {
       text-align: center;
     }
+    .tick line {
+      display: none;
+    }
   </style>
     <script type="text/javascript">
       function draw(data) {
@@ -45,7 +48,7 @@
           /* Set new default colors */
           myChart.defaultColors = [
                   new dimple.color("#d7191c", "#d7191c", 0.8),
-                  new dimple.color("#bababa", "#bababa", 0.25),
+                  new dimple.color("#bababa", "#bababa", 0.5),
                   new dimple.color("#abd9e9", "#abd9e9", 0.8),
                   new dimple.color("#abdda4", "#abdda4", 0.8)
           ];
@@ -63,16 +66,20 @@
           y_cpi.tickFormat = ",.2f";
           var cpi = myChart.addSeries("CPI", dimple.plot.line, [x, y_cpi]);
 
-          var y_ue = myChart.addMeasureAxis(y_cash, "ue_aus");
+          var y_ue = myChart.addMeasureAxis(y_gdp, "ue_aus");
           y_ue.tickFormat = ",.2f";
           var ue = myChart.addSeries("Unemployment", dimple.plot.line, [x, y_ue]);
 
-          var myLegend = myChart.addLegend(width - 200, 70, 150, 600, "Right", [ue, gdp, cpi, cash]);
+          var myLegend = myChart.addLegend(width - 200, 65, 150, 600, "Right", [cash, ue, gdp, cpi]);
+
+          /* Rename the titles */
+          y_cash.title = "RBA Cash Rate";
+          y_gdp.title = "Unemployment, GDP & CPI";
 
           myChart.draw();
 
           /* Improve readability by reducing bar sizes */
-          /* svg.selectAll("rect").style("width", 1); */
+          svg.selectAll(".dimple-series-1").style("width", 1);
 
           myChart.axes[0].shapes.selectAll("text")
                           .attr("transform", "rotate (0)");
