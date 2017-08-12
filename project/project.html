@@ -53,6 +53,8 @@
                   new dimple.color("#abdda4", "#abdda4", 0.8)
           ];
 
+          var seriesDict = {};
+
           var y_cash = myChart.addMeasureAxis("y", "cash_rate");
           y_cash.tickFormat = ",.2f";
           var cash = myChart.addSeries("Cash Rate", dimple.plot.line, [x, y_cash]);
@@ -84,12 +86,36 @@
           myChart.axes[0].shapes.selectAll("text")
                           .attr("transform", "rotate (0)");
 
-          /* */
+          /* Add interactive legend
+          myChart.legends = [];
+
+          */
+          var toggle = false;
+
+          d3.select('#preIT').on('click', function(){
+            
+            var index;
+            
+              for(var i = 0; i < myChart.series.length; i++){
+                if(myChart.series[i] === cash){
+                      index = i;
+                      break;
+                }
+              }    
+              myChart.series[index].shapes.style('display',
+                                            toggle ? '' : 'none');
+
+            toggle = !toggle;
+          });
           debugger;
         };
       </script>
   </head>
 <body>
+  <div id="chartContainer"></div>
+  
+    <button id="preIT">preInflationTargeting</button>
+    <button id="IT">InlationTargeting</button>
   <script type="text/javascript">
   /*
     Use D3 (not dimple.js) to load the TSV file
