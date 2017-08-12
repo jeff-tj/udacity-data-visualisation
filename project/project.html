@@ -38,6 +38,9 @@
       /*
         Dimple.js Chart construction code
       */
+          /* Create a filter by regime */
+          var filterValues = ["preIT", "IT"];
+          data = dimple.filterData(data, "regime", filterValues);
 
           var myChart = new dimple.chart(svg, data);
           var x = myChart.addTimeAxis("x", "Date"); 
@@ -124,25 +127,52 @@
               seriesDict[thisSeries].visible = !seriesDict[thisSeries].visible;
             });
 
-          /*
-          var toggle = false;
+          /* Section to filter by regime */
 
-          d3.select('#preIT').on('click', function(){
-            
-            var index;
-            
-              for(var i = 0; i < myChart.series.length; i++){
-                if(myChart.series[i] === cash){
-                      index = i;
-                      break;
-                }
-              }    
-              myChart.series[index].shapes.style('display',
-                                            toggle ? '' : 'none');
+          d3.select("#preIT").on("click", function(){
+              //
+              var newFilterValues = [];
+              var buttonValue = "preIT";
+              if (filterValues.includes(buttonValue)) {
+                filterValues.forEach(function(f) {
+                  if (f === buttonValue) {
+                    null;
+                  } else {
+                    newFilterValues.push(f);
+                  }
+                });
+                filterValues = newFilterValues;
+              } else {
+                filterValues.push(buttonValue);
+              }
 
-            toggle = !toggle;
-          */
-          //});
+              myChart.data = dimple.filterData(data, "regime", filterValues);
+              myChart.draw(500);
+              svg.selectAll(".dimple-series-1").style("width", 1);
+          });
+
+          d3.select("#IT").on("click", function(){
+              //
+              var newFilterValues = [];
+              var buttonValue = "IT";
+              if (filterValues.includes(buttonValue)) {
+                filterValues.forEach(function(f) {
+                  if (f === buttonValue) {
+                    null;
+                  } else {
+                    newFilterValues.push(f);
+                  }
+                });
+                filterValues = newFilterValues;
+              } else {
+                filterValues.push(buttonValue);
+              }
+
+              myChart.data = dimple.filterData(data, "regime", filterValues);
+              myChart.draw(500);
+              svg.selectAll(".dimple-series-1").style("width", 1);
+          });
+
           debugger;
         };
       </script>
