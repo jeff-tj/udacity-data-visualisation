@@ -4,9 +4,14 @@
   <meta charset="utf-8">
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <style>
     h2 {
       text-align: center;
+      font-family: 'Roboto', sans-serif;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
     }
     .tick line {
       display: none;
@@ -15,11 +20,13 @@
       position: absolute;
       right: 75px;
       top: 110px;
+      font-family: 'Roboto', sans-serif;
     }
     #preIT {
       position: absolute;
       right: 185px;
       top: 110px;
+      font-family: 'Roboto', sans-serif;
     }
   </style>
     <script type="text/javascript">
@@ -36,7 +43,8 @@
 
           var header = d3.select("body")
             .append("h2")
-              .text("Australian Economy");
+              .attr("x", 90)
+              .text("The Australian Economy");
 
           var svg = d3.select("body")
             .append("svg")
@@ -114,6 +122,17 @@
 
           myChart.axes[0].shapes.selectAll("text")
                           .attr("transform", "rotate (0)");
+
+          // Add explanatory text
+          svg.selectAll("explanatory-text")
+            .data(["Australia is approaching its 26th year of growth without a recession. This is the longest streak in the developed world. Many attribute this to the RBA's",
+              "(Australia's central bank) inflation targeting regime. Explore the key economic before and after inflation targeting was introduced by on the legend."])
+            .enter()
+            .append("text")
+              .attr("x", 90)
+              .attr("y", function (d, i) { return 10 + i * 14; })
+              .attr("font-size", "12px")
+              .text(function (d) { return d; });
 
           /* Add interactive legend */
           myChart.legends = [];
