@@ -11,6 +11,16 @@
     .tick line {
       display: none;
     }
+    #IT {
+      position: absolute;
+      right: 75px;
+      top: 110px;
+    }
+    #preIT {
+      position: absolute;
+      right: 185px;
+      top: 110px;
+    }
   </style>
     <script type="text/javascript">
       function draw(data) {
@@ -128,49 +138,47 @@
             });
 
           /* Section to filter by regime */
+          function updateChart(buttonValue) {
+            // Function to update the chart on regime
+            var newFilterValues = [];
+            if (filterValues.includes(buttonValue)) {
+              filterValues.forEach(function(f) {
+                if (f === buttonValue) {
+                  null;
+                } else {
+                  newFilterValues.push(f);
+                }
+              });
+              filterValues = newFilterValues;
+            } else {
+              filterValues.push(buttonValue);
+            }
 
+            myChart.data = dimple.filterData(data, "regime", filterValues);
+            myChart.draw(500);
+            svg.selectAll(".dimple-series-1").style("width", 1);
+
+            // Solve issue where if series was hidden, it will be redrawn
+            for (let key in seriesDict) {
+              let curSeries = seriesDict[key];
+              var curIndex;
+
+              for(var i = 0; i < myChart.series.length; i++){
+                if(myChart.series[i] === curSeries.series){
+                      curIndex = i;
+                      break;
+                }
+              }    
+              myChart.series[curIndex].shapes.style('display',
+                                            curSeries.visible ? '' : 'none');
+            }
+          }
           d3.select("#preIT").on("click", function(){
-              //
-              var newFilterValues = [];
-              var buttonValue = "preIT";
-              if (filterValues.includes(buttonValue)) {
-                filterValues.forEach(function(f) {
-                  if (f === buttonValue) {
-                    null;
-                  } else {
-                    newFilterValues.push(f);
-                  }
-                });
-                filterValues = newFilterValues;
-              } else {
-                filterValues.push(buttonValue);
-              }
-
-              myChart.data = dimple.filterData(data, "regime", filterValues);
-              myChart.draw(500);
-              svg.selectAll(".dimple-series-1").style("width", 1);
+              updateChart("preIT");
           });
 
           d3.select("#IT").on("click", function(){
-              //
-              var newFilterValues = [];
-              var buttonValue = "IT";
-              if (filterValues.includes(buttonValue)) {
-                filterValues.forEach(function(f) {
-                  if (f === buttonValue) {
-                    null;
-                  } else {
-                    newFilterValues.push(f);
-                  }
-                });
-                filterValues = newFilterValues;
-              } else {
-                filterValues.push(buttonValue);
-              }
-
-              myChart.data = dimple.filterData(data, "regime", filterValues);
-              myChart.draw(500);
-              svg.selectAll(".dimple-series-1").style("width", 1);
+              updateChart("IT");
           });
 
           debugger;
