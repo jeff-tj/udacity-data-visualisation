@@ -58,19 +58,35 @@
           var y_cash = myChart.addMeasureAxis("y", "cash_rate");
           y_cash.tickFormat = ",.2f";
           var cash = myChart.addSeries("Cash Rate", dimple.plot.line, [x, y_cash]);
+          seriesDict["Cash Rate"] = { name: "dimple-series-0",
+                                      series: cash,
+                                      visible: true
+                                    };
 
           var y_gdp = myChart.addMeasureAxis("y", "gdp");
           y_gdp.tickFormat = ",.2f";
           var gdp = myChart.addSeries("GDP", dimple.plot.bar, [x, y_gdp]);
+          seriesDict["GDP"] = { name: "dimple-series-1",
+                                series: gdp,
+                                visible: true
+                              };
 
           /* Take advantage of the dimple composite axes */
           var y_cpi = myChart.addMeasureAxis(y_gdp, "cpi");
           y_cpi.tickFormat = ",.2f";
           var cpi = myChart.addSeries("CPI", dimple.plot.line, [x, y_cpi]);
+          seriesDict["CPI"] = { name: "dimple-series-2",
+                                series: cpi,
+                                visible: true
+                              };
 
           var y_ue = myChart.addMeasureAxis(y_gdp, "ue_aus");
           y_ue.tickFormat = ",.2f";
           var ue = myChart.addSeries("Unemployment", dimple.plot.line, [x, y_ue]);
+          seriesDict["Unemployment"] =  { name: "dimple-series-3",
+                                          series: ue,
+                                          visible: true
+                                        };
 
           var myLegend = myChart.addLegend(width - 200, 65, 150, 600, "Right", [cash, ue, gdp, cpi]);
 
@@ -86,10 +102,29 @@
           myChart.axes[0].shapes.selectAll("text")
                           .attr("transform", "rotate (0)");
 
-          /* Add interactive legend
+          /* Add interactive legend */
           myChart.legends = [];
 
-          */
+          myLegend.shapes.selectAll("rect")
+            .on("click", function (e) {
+              // console.log(e.aggField[0]);
+              var thisSeries = e.aggField[0];
+
+              var index;
+          
+              for(var i = 0; i < myChart.series.length; i++){
+                if(myChart.series[i] === seriesDict[thisSeries].series){
+                      index = i;
+                      break;
+                }
+              }    
+              myChart.series[index].shapes.style('display',
+                                            seriesDict[thisSeries].visible ? 'none' : '');
+
+              seriesDict[thisSeries].visible = !seriesDict[thisSeries].visible;
+            });
+
+          /*
           var toggle = false;
 
           d3.select('#preIT').on('click', function(){
@@ -106,7 +141,8 @@
                                             toggle ? '' : 'none');
 
             toggle = !toggle;
-          });
+          */
+          //});
           debugger;
         };
       </script>
