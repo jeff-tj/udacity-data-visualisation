@@ -134,28 +134,6 @@
               .attr("font-size", "12px")
               .text(function (d) { return d; });
 
-          /* Add interactive legend */
-          myChart.legends = [];
-
-          myLegend.shapes.selectAll("rect")
-            .on("click", function (e) {
-              // console.log(e.aggField[0]);
-              var thisSeries = e.aggField[0];
-
-              var index;
-          
-              for(var i = 0; i < myChart.series.length; i++){
-                if(myChart.series[i] === seriesDict[thisSeries].series){
-                      index = i;
-                      break;
-                }
-              }    
-              myChart.series[index].shapes.style('display',
-                                            seriesDict[thisSeries].visible ? 'none' : '');
-
-              seriesDict[thisSeries].visible = !seriesDict[thisSeries].visible;
-            });
-
           /* Section to filter by regime */
           function updateChart(buttonValue) {
             // Function to update the chart on regime
@@ -192,6 +170,60 @@
                                             curSeries.visible ? '' : 'none');
             }
           }
+
+          // Add an animated story
+          var pause = 2500; // Pause time in milliseconds
+
+          setTimeout(function () {
+            svg.selectAll("explanatory-text")
+              .data(["Before 1990, the RBA's policy was unclear. Growth was more volatile and there were frequent recessions."])
+              .enter()
+              .append("text")
+                .attr("x", 90)
+                .attr("y", function (d, i) { return 38 + i * 14; })
+                .attr("font-size", "12px")
+                .text(function (d) { return d; });
+
+            // Show only pre-IT regime
+            updateChart("IT");
+          }, pause);
+
+          setTimeout(function () {
+            svg.selectAll("explanatory-text")
+              .data(["After 1990, the RBA used inflation targeting and Australia's economy has been more stable without recessions."])
+              .enter()
+              .append("text")
+                .attr("x", 90)
+                .attr("y", function (d, i) { return 52 + i * 14; })
+                .attr("font-size", "12px")
+                .text(function (d) { return d; });
+
+            // Show the full chart
+            updateChart("IT");
+          }, pause * 2);
+
+          /* Add interactive legend */
+          myChart.legends = [];
+
+          myLegend.shapes.selectAll("rect")
+            .on("click", function (e) {
+              // console.log(e.aggField[0]);
+              var thisSeries = e.aggField[0];
+
+              var index;
+          
+              for(var i = 0; i < myChart.series.length; i++){
+                if(myChart.series[i] === seriesDict[thisSeries].series){
+                      index = i;
+                      break;
+                }
+              }    
+              myChart.series[index].shapes.style('display',
+                                            seriesDict[thisSeries].visible ? 'none' : '');
+
+              seriesDict[thisSeries].visible = !seriesDict[thisSeries].visible;
+            });
+
           d3.select("#preIT").on("click", function(){
               updateChart("preIT");
           });
