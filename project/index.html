@@ -146,16 +146,26 @@
             // Function to update the chart on regime
             var newFilterValues = [];
             if (filterValues.includes(buttonValue)) {
-              filterValues.forEach(function(f) {
-                if (f === buttonValue) {
-                  null;
-                } else {
-                  newFilterValues.push(f);
-                }
-              });
+              if (filterValues.length === 2) {
+                filterValues.forEach(function(f) {
+                  if (f !== buttonValue) {
+                    newFilterValues.push(f);
+                  }
+                });
+              } else {
+                // Case where only that one is selected
+                var otherOption = (buttonValue==="IT") ? "preIT":"IT";
+                newFilterValues.push(otherOption);
+                document.getElementById(otherOption)
+                  .style.backgroundColor = "rgba(0, 122, 255, 0.8)";
+              }
               filterValues = newFilterValues;
+              document.getElementById(buttonValue)
+                .style.backgroundColor = "#bababa";
             } else {
               filterValues.push(buttonValue);
+              document.getElementById(buttonValue)
+                .style.backgroundColor = "rgba(0, 122, 255, 0.8)";
             }
 
             myChart.data = dimple.filterData(data, "regime", filterValues);
