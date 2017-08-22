@@ -21,17 +21,20 @@
       right: 75px;
       top: 110px;
       font-family: 'Roboto', sans-serif;
+      background-color: blue;
+      background-color: rgba(0, 122, 255, 0.8);
     }
     #preIT {
       position: absolute;
       right: 185px;
       top: 110px;
       font-family: 'Roboto', sans-serif;
+      background-color: rgba(0, 122, 255, 0.8);
     }
   </style>
     <script type="text/javascript">
       function draw(data) {
-      
+
       /*
         D3.js setup code
       */
@@ -61,7 +64,7 @@
           data = dimple.filterData(data, "regime", filterValues);
 
           var myChart = new dimple.chart(svg, data);
-          var x = myChart.addTimeAxis("x", "Date"); 
+          var x = myChart.addTimeAxis("x", "Date");
           x.dateParseFormat = "%d %b %Y";
           x.tickFormat = "%b-%y";
           x.timeInterval = 2;
@@ -125,8 +128,12 @@
 
           // Add explanatory text
           svg.selectAll("explanatory-text")
-            .data(["Australia is approaching its 26th year of growth without a recession. This is the longest streak in the developed world. Many attribute this to the RBA's",
-              "(Australia's central bank) inflation targeting regime. Explore the key economic before and after inflation targeting was introduced by on the legend."])
+            .data(["Australia is approaching its 26th year of growth without a "
+              + "recession. This is the longest streak in the developed world. "
+              + "Many attribute this to the RBA's",
+              "(Australia's central bank) inflation targeting regime. Explore "
+              + "the key economic before and after inflation targeting was "
+              + "introduced by on the legend."])
             .enter()
             .append("text")
               .attr("x", 90)
@@ -165,7 +172,7 @@
                       curIndex = i;
                       break;
                 }
-              }    
+              }
               myChart.series[curIndex].shapes.style('display',
                                             curSeries.visible ? '' : 'none');
             }
@@ -176,7 +183,8 @@
 
           setTimeout(function () {
             svg.selectAll("explanatory-text")
-              .data(["Before 1990, the RBA's policy was unclear. Growth was more volatile and there were frequent recessions."])
+              .data(["Before 1990, the RBA's policy was unclear. Growth was "
+                + "more volatile and there were frequent recessions."])
               .enter()
               .append("text")
                 .attr("x", 90)
@@ -190,7 +198,8 @@
 
           setTimeout(function () {
             svg.selectAll("explanatory-text")
-              .data(["After 1990, the RBA used inflation targeting and Australia's economy has been more stable without recessions."])
+              .data(["After 1990, the RBA used inflation targeting and "
+                + "Australia's economy has been more stable without recessions."])
               .enter()
               .append("text")
                 .attr("x", 90)
@@ -211,13 +220,13 @@
               var thisSeries = e.aggField[0];
 
               var index;
-          
+
               for(var i = 0; i < myChart.series.length; i++){
                 if(myChart.series[i] === seriesDict[thisSeries].series){
                       index = i;
                       break;
                 }
-              }    
+              }
               myChart.series[index].shapes.style('display',
                                             seriesDict[thisSeries].visible ? 'none' : '');
 
@@ -232,14 +241,14 @@
               updateChart("IT");
           });
 
-          debugger;
         };
       </script>
   </head>
 <body>
   <div id="chartContainer"></div>
-  
+    <!--  Button to toggle pre-inflation targetting data -->
     <button id="preIT">preInflationTargeting</button>
+    <!-- Button to toggle inflation targetting data -->
     <button id="IT">InlationTargeting</button>
   <script type="text/javascript">
   /*
